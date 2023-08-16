@@ -3,6 +3,7 @@ import axios from "axios";
 import store from "./store";
 const initialState = {
   data: "",
+  navBar:false
 };
 
 export const dataSlice = createSlice({
@@ -17,11 +18,15 @@ export const dataSlice = createSlice({
     },
     setError:(state,action) => {
       state.error=action.payload
+    },
+    setNavBar:(state, action) => {
+      state.navBar = action.payload
+      console.log(state.navBar);
     }
   },
 });
 
-export const { setData, setLoading,setError } = dataSlice.actions;
+export const { setData, setLoading,setError,setNavBar} = dataSlice.actions;
 
 export default dataSlice.reducer;
 

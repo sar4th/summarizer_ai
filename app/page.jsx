@@ -8,8 +8,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Head from "next/head";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setNavBar } from "@/redux/slice";
 
 export default function Home() {
+  const dispatch=useDispatch()
   useEffect(()=>{
   },[])
   return (
@@ -52,6 +55,7 @@ export default function Home() {
           </Typography>
           <Link href="/summarize">
             <Button
+            onClick={()=>dispatch(setNavBar(true))}
               sx={{
                 fontSize: "16px",
                 fontWeight: "400",

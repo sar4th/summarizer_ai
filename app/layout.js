@@ -1,4 +1,3 @@
-
 import "./globals.css";
 import { Roboto } from "next/font/google";
 import { Poppins } from "next/font/google";
@@ -22,8 +21,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <NavBar/>
-        <Providers>{children}</Providers>
+        <Providers>
+          <NavBar />
+          {children}
+        </Providers>
       </body>
     </html>
   );

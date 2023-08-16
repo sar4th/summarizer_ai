@@ -16,10 +16,15 @@ import AdbIcon from "@mui/icons-material/Adb";
 import Image from "next/image";
 import Robo from "../public/assests/robo.png";
 import Link from "next/link";
-import {AiOutlineMenu} from "react-icons/ai"
+import { AiOutlineMenu } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { setNavBar } from "@/redux/slice";
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function NavBar() {
+  const dispatch = useDispatch();
+  const navBars = useSelector((state) => state.data.navBar);
+  console.log("it is", navBars);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -47,26 +52,33 @@ function NavBar() {
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar disableGutters >
+        <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Link href="/" passHref  suppressHydrationWarning={true} style={{textDecoration:"none",color:"white"}}>
-            <Typography
-              variant="h6"
-              noWrap
-             
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                textDecoration: "none",
-                color: "inherit",
-              }}
+          {navBars && (
+            <Link
+              onClick={() => dispatch(setNavBar(false))}
+              href="/"
+              passHref
+              suppressHydrationWarning={true}
+              style={{ textDecoration: "none", color: "white" }}
             >
-              HOME
-            </Typography>
-          </Link>
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
+              >
+                HOME
+              </Typography>
+            </Link>
+          )}
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -105,24 +117,32 @@ function NavBar() {
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-          HOME
-          </Typography>
+          {navBars && (
+            <Typography
+              variant="h5"
+              noWrap
+              // component="a"
+              // href="/"
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              <Link
+                onClick={() => dispatch(setNavBar(false))}
+                href={"/"}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                HOME
+              </Link>
+            </Typography>
+          )}
           {/* <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
              {pages.map((page) => (
               <Button
