@@ -15,25 +15,27 @@ export const dataSlice = createSlice({
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
+    setError:(state,action) => {
+      state.error=action.payload
+    }
   },
 });
 
-export const { setData, setLoading } = dataSlice.actions;
+export const { setData, setLoading,setError } = dataSlice.actions;
 
 export default dataSlice.reducer;
 
 export const fetchData = async (url) => {
-  console.log(process.env.API_KEY);
   store.dispatch(setLoading(true));
   const options = {
     method: "GET",
     url: "https://article-extractor-and-summarizer.p.rapidapi.com/summarize",
     params: {
       url: `${url}`,
-      length: "3",
+      length: "2",
     },
     headers: {
-      "X-RapidAPI-Key": "b6a4980ecbmsh2c2b498ae224e88p161b68jsn0540f739dc60",
+      "X-RapidAPI-Key": process.env.NEW_API_KEY,
       "X-RapidAPI-Host": "article-extractor-and-summarizer.p.rapidapi.com",
     },
   };
@@ -44,6 +46,7 @@ export const fetchData = async (url) => {
     store.dispatch(setData(summary));
     store.dispatch(setLoading(false));
   } catch (error) {
+    store.dispatch(setError(error))
     console.error(error);
   }
 };
