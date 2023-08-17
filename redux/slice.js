@@ -3,7 +3,7 @@ import axios from "axios";
 import store from "./store";
 const initialState = {
   data: "",
-  navBar:false
+  navBar: false,
 };
 
 export const dataSlice = createSlice({
@@ -16,17 +16,17 @@ export const dataSlice = createSlice({
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
-    setError:(state,action) => {
-      state.error=action.payload
+    setError: (state, action) => {
+      state.error = action.payload;
     },
-    setNavBar:(state, action) => {
-      state.navBar = action.payload
+    setNavBar: (state, action) => {
+      state.navBar = action.payload;
       console.log(state.navBar);
-    }
+    },
   },
 });
 
-export const { setData, setLoading,setError,setNavBar} = dataSlice.actions;
+export const { setData, setLoading, setError, setNavBar } = dataSlice.actions;
 
 export default dataSlice.reducer;
 
@@ -47,11 +47,11 @@ export const fetchData = async (url) => {
   try {
     const response = await axios.request(options);
     const summary = response?.data?.summary;
-
+    console.log(summary);
     store.dispatch(setData(summary));
     store.dispatch(setLoading(false));
   } catch (error) {
-    store.dispatch(setError(error))
+    store.dispatch(setError(error));
     console.error(error);
   }
 };

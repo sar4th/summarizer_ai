@@ -20,10 +20,15 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { setNavBar } from "@/redux/slice";
 const pages = ["Products", "Pricing", "Blog"];
+import { signIn, signOut, useSession } from "next-auth/react";
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function NavBar() {
+  const { data: session } = useSession();
+  const UserImage = session?.user?.image;
+  console.log("this is the", session);
   const dispatch = useDispatch();
   const navBars = useSelector((state) => state.data.navBar);
+  console.log("THIS IS", navBars);
   console.log("it is", navBars);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -52,7 +57,7 @@ function NavBar() {
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           {navBars && (
             <Link
@@ -155,35 +160,42 @@ function NavBar() {
             ))}
           </Box> */}
 
-          {/* <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-             <AiOutlineMenu width={24} height={24} style={{color:"white"}}/>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box> */}
+          <Box
+            sx={{
+              flexGrow: 0,
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
+              gap: "9px",
+            }}
+          >
+            {UserImage && (
+              <Avatar src={UserImage} sx={{ width:35, height: 35 }} />
+            )}
+            {session && session.user ? (
+              <Button
+                variant="outlined"
+                color="inherit"
+                size="small"
+                onClick={() => signOut()}
+                sx={{ ml: 2 }}
+              >
+                logout
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  signIn("google");
+                }}
+                sx={{ ml: 2 }}
+              >
+                Login
+              </Button>
+            )}
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
