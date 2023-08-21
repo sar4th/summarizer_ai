@@ -25,11 +25,10 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function NavBar() {
   const { data: session } = useSession();
   const UserImage = session?.user?.image;
-  console.log("this is the", session);
+
   const dispatch = useDispatch();
   const navBars = useSelector((state) => state.data.navBar);
-  console.log("THIS IS", navBars);
-  console.log("it is", navBars);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -85,7 +84,7 @@ function NavBar() {
             </Link>
           )}
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          {/* <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -120,7 +119,7 @@ function NavBar() {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box> */}
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           {navBars && (
             <Typography
@@ -170,7 +169,7 @@ function NavBar() {
             }}
           >
             {UserImage && (
-              <Avatar src={UserImage} sx={{ width:35, height: 35 }} />
+              <Avatar src={UserImage} sx={{ width: 35, height: 35 }} />
             )}
             {session && session.user ? (
               <Button

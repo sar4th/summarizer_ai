@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import store from "./store";
 const initialState = {
+  summary: "",
+  loading: false,
   data: "",
+  error: null,
   navBar: false,
 };
 
@@ -37,7 +40,7 @@ export const fetchData = async (url) => {
     url: "https://article-extractor-and-summarizer.p.rapidapi.com/summarize",
     params: {
       url: `${url}`,
-      length: "2",
+      length: "3",
     },
     headers: {
       "X-RapidAPI-Key": process.env.NEW_API_KEY,
@@ -47,7 +50,7 @@ export const fetchData = async (url) => {
   try {
     const response = await axios.request(options);
     const summary = response?.data?.summary;
-    console.log(summary);
+
     store.dispatch(setData(summary));
     store.dispatch(setLoading(false));
   } catch (error) {

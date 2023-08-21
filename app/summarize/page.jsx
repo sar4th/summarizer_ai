@@ -40,6 +40,7 @@ const Page = () => {
           className={styles.main}
           minHeight="100vh"
           px={2}
+
         >
           <Grid
             item
@@ -128,8 +129,8 @@ const Page = () => {
               </button>
             </form>
           </Grid>
-          <Grid item>
-            <Box width="100%" maxWidth="500px">
+          <Grid item >
+            <Box width="100%" maxWidth="500px" marginBottom={"10px"}  >
               {loading ? (
                 <Loading />
               ) : (
