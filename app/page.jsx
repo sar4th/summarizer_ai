@@ -1,5 +1,4 @@
-
-"use client"
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
 import { Button, Grid, Typography } from "@mui/material";
@@ -12,9 +11,8 @@ import { useDispatch } from "react-redux";
 import { setNavBar } from "@/redux/slice";
 
 export default function Home() {
-  const dispatch=useDispatch()
-  useEffect(()=>{
-  },[])
+  const dispatch = useDispatch();
+  useEffect(() => {}, []);
   return (
     <main className={styles.main}>
       <Head>
@@ -46,7 +44,7 @@ export default function Home() {
               fontSize: ["24px", "36px", "48px"],
               color: "white",
               mb: 2,
-              textAlign:"left"
+              textAlign: "left",
             }}
           >
             Simplify Complexity
@@ -55,7 +53,7 @@ export default function Home() {
           </Typography>
           <Link href="/summarize">
             <Button
-            onClick={()=>dispatch(setNavBar(true))}
+              onClick={() => dispatch(setNavBar(true))}
               sx={{
                 fontSize: "16px",
                 fontWeight: "400",

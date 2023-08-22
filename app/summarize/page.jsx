@@ -2,27 +2,51 @@
 import { Box, Grid, Input, TextField, Typography } from "@mui/material";
 import React, { Suspense, useEffect, useState } from "react";
 import styles from "./page.module.css";
-import { fetchData } from "@/redux/slice";
 import { useSelector } from "react-redux";
 import Loading from "./Loading";
 import Head from "next/head";
 import ErrorPage from "@/components/ErrorPage";
-
+import { fetchData } from "@/redux/slice";
+import { useSpeechSynthesis } from "react-speech-kit";
+import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
+import StopCircleIcon from "@mui/icons-material/StopCircle";
+import TransitEnterexitIcon from "@mui/icons-material/TransitEnterexit";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import HeroComponent from "@/components/HeroComponent";
 const Page = () => {
-  const error=useSelector((state)=>state.data.error)
-  const summary = useSelector((state) => state.data.summary);
+  const { speak, cancel } = useSpeechSynthesis();
+  const error = useSelector((state) => state?.data?.error);
+  const summary = useSelector((state) => state?.data?.summary);
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [playing, setPlaying] = useState(false);
+
+  const handleListen = () => {
+    if (!summary) {
+      alert("Please select a summary");
+    } else {
+      speak({ text: summary });
+      setPlaying(true);
+    }
+  };
+
+  const handleStop = () => {
+    cancel();
+    setPlaying(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     if (url) {
-      await fetchData(url);
+      setLoading(true);
+      try {
+        await fetchData(url);
+      } finally {
+        setLoading(false);
+      }
     } else {
       alert("Please enter a URL");
     }
-    setLoading(false);
   };
 
   return (
@@ -40,48 +64,11 @@ const Page = () => {
           className={styles.main}
           minHeight="100vh"
           px={2}
-
+          md={12}
         >
-          <Grid
-            item
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            flexDirection="column"
-            textAlign="center"
-            mb={4}
-          >
-            <Typography
-              sx={{
-                fontSize: ["24px", "30px", "35px"],
-                fontWeight: "700",
-                color: "#FFFFFF",
-                marginBottom: "8px",
-              }}
-            >
-              Summarize Articles With{" "}
-              <span style={{ color: "#ff3333" }}>GPT-4</span>
-            </Typography>
+          <HeroComponent />
 
-            <div style={{textAlign:"left"}}>
-            <Typography
-              sx={{
-                fontSize: ["12px", "14px", "15px"],
-                fontWeight: "400",
-                color: "#F5F5F5",
-                mt: 2,
-                lineHeight: "1.5"
-              }}
-            >
-              Unlocking the Power of Efficiency: Experience the Future of <br />
-              Article Summaries with GPT-4. Discover a revolutionary way to{" "}
-              <br />
-              streamline your reading experience using cutting-edge AI <br />
-              technology.
-            </Typography>
-            </div>
-          </Grid>
-          <Grid item mb={2}>
+          <Grid item mb={2} flexWrap={"wrap"} md={12}>
             <form
               onSubmit={handleSubmit}
               style={{
@@ -94,8 +81,6 @@ const Page = () => {
                 style={{
                   border: "none",
                   width: "100%",
-                  minWidth:"300px",
-                  maxWidth: "300px",
                   height: "30px",
                   textAlign: "center",
                   color: "black",
@@ -114,7 +99,7 @@ const Page = () => {
               <button
                 type="submit"
                 style={{
-                  fontSize: "17px",
+                  fontSize: "12px",
 
                   border: "none",
                   borderRadius: "3px",
@@ -125,23 +110,63 @@ const Page = () => {
                   boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
                 }}
               >
-                ↩
+                <TransitEnterexitIcon />
               </button>
+              <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                gap={2}
+                ml={1}
+              >
+                <button
+                  type="button"
+                  style={{
+                    fontSize: "12px",
+                    border: "none",
+                    borderRadius: "3px",
+                    backgroundColor: "#ff3333",
+                    color: "white",
+                    cursor: "pointer",
+                    padding: "5px 10px",
+                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+                  }}
+                  onClick={playing ? handleStop : handleListen}
+                >
+                  {playing ? <StopCircleIcon /> : <RecordVoiceOverIcon />}
+                </button>
+              </Box>
             </form>
           </Grid>
-          <Grid item >
-            <Box width="100%" maxWidth="500px" marginBottom={"10px"}  >
+          <Grid item padding={"13px"} md={12}>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              border={"2px solid white"}
+              width="100%"
+              maxWidth="1000px"
+              marginBottom={"10px"}
+              height={"248px"}
+              overflow={"auto"}
+              padding={"5px"}
+              borderRadius={"7px"}
+            >
               {loading ? (
                 <Loading />
               ) : (
                 <Typography
                   sx={{
                     color: "white",
-                    fontWeight: 400,
+                    fontWeight: 100,
                     fontSize: ["12px", "14px", "15px"],
+                    lineHeight: "20px",
+                    letterSpacing: ".5px",
+                    textIndent: "30px",
+                    textTransform: "capitalize",
+                    textAlign: "justify",
                   }}
                 >
-                  {error ? <ErrorPage/> : summary }
+                  {error ? <ErrorPage /> : summary}
                 </Typography>
               )}
             </Box>

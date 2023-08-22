@@ -21,8 +21,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNavBar } from "@/redux/slice";
 const pages = ["Products", "Pricing", "Blog"];
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function NavBar() {
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/");
+  }, [signOut]);
+
   const { data: session } = useSession();
   const UserImage = session?.user?.image;
 
@@ -58,7 +65,7 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          {navBars && (
+          {(navBars || session?.user) && (
             <Link
               onClick={() => dispatch(setNavBar(false))}
               href="/"
@@ -169,7 +176,11 @@ function NavBar() {
             }}
           >
             {UserImage && (
-              <Avatar src={UserImage} sx={{ width: 35, height: 35 }} />
+              <Avatar
+                src={UserImage}
+                sx={{ width: 35, height: 35 }}
+                style={{ cursor: "pointer" }}
+              />
             )}
             {session && session.user ? (
               <Button
