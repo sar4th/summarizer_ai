@@ -143,7 +143,6 @@ const Page = () => {
             padding={"13px"}
             md={12}
             sx={{
-              backdropFilter: "blur(10px)",
               backgroundColor: "rgba(255, 255, 255, 0.05)",
               boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
             }}
