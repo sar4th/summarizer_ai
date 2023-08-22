@@ -67,7 +67,6 @@ const Page = () => {
           md={12}
         >
           <HeroComponent />
-
           <Grid item mb={2} flexWrap={"wrap"} md={12}>
             <form
               onSubmit={handleSubmit}
