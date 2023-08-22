@@ -1,8 +1,8 @@
 "use client";
 import { Box, Grid, Input, TextField, Typography } from "@mui/material";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, use, useEffect, useState } from "react";
 import styles from "./page.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loading from "./Loading";
 import Head from "next/head";
 import ErrorPage from "@/components/ErrorPage";
@@ -14,6 +14,7 @@ import TransitEnterexitIcon from "@mui/icons-material/TransitEnterexit";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import HeroComponent from "@/components/HeroComponent";
 const Page = () => {
+  const dispatch = useDispatch();
   const { speak, cancel } = useSpeechSynthesis();
   const error = useSelector((state) => state?.data?.error);
   const summary = useSelector((state) => state?.data?.summary);
@@ -40,7 +41,7 @@ const Page = () => {
     if (url) {
       setLoading(true);
       try {
-        await fetchData(url);
+        await fetchData(url, dispatch);
       } finally {
         setLoading(false);
       }
@@ -137,11 +138,19 @@ const Page = () => {
               </Box>
             </form>
           </Grid>
-          <Grid item padding={"13px"} md={12}>
+          <Grid
+            item
+            padding={"13px"}
+            md={12}
+            sx={{
+              backdropFilter: "blur(10px)",
+              backgroundColor: "rgba(255, 255, 255, 0.05)",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            }}
+          >
             <Box
               display={"flex"}
               alignItems={"center"}
-              border={"2px solid white"}
               width="100%"
               maxWidth="1000px"
               marginBottom={"10px"}

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 // import store from "./store";
 
 const dummy_summary =
@@ -36,7 +37,7 @@ export const { setData, setLoading, setError, setNavBar } = dataSlice.actions;
 
 export default dataSlice.reducer;
 
-export const fetchData = async (url) => {
+export const fetchData = async (url,dispatch) => {
   if(!url) return
   dispatch(setLoading(true));
   const options = {
