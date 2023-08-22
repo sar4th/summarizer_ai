@@ -138,29 +138,28 @@ const Page = () => {
               </Box>
             </form>
           </Grid>
-          <Grid
-            item
-            padding={"13px"}
-            md={12}
-            sx={{
-              backgroundColor: "rgba(255, 255, 255, 0.05)",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <Box
-              display={"flex"}
-              alignItems={"center"}
-              width="100%"
-              maxWidth="1000px"
-              marginBottom={"10px"}
-              height={"248px"}
-              overflow={"auto"}
-              padding={"5px"}
-              borderRadius={"7px"}
+          {loading && <Loading />}
+          {summary && (
+            <Grid
+              item
+              padding={"13px"}
+              md={12}
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.05)",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+              }}
             >
-              {loading ? (
-                <Loading />
-              ) : (
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                width="100%"
+                maxWidth="1000px"
+                // marginBottom={"10px"}
+                height={"248px"}
+                overflow={"auto"}
+                padding={"5px"}
+                borderRadius={"7px"}
+              >
                 <Typography
                   sx={{
                     color: "white",
@@ -175,9 +174,9 @@ const Page = () => {
                 >
                   {error ? <ErrorPage /> : summary}
                 </Typography>
-              )}
-            </Box>
-          </Grid>
+              </Box>
+            </Grid>
+          )}
         </Grid>
       </main>
     </>
