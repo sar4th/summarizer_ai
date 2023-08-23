@@ -7,15 +7,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setNavBar } from "@/redux/slice";
+import { useDispatch, useSelector } from "react-redux";
+import { setGetStarted, setNavBar } from "@/redux/slice";
 import Loading from "./summarize/Loading";
 
 export default function Home() {
+  // const getStarted = useSelector((state) => state.data.setGetStarted)
   const [getStarted, setGetStarted] = useState(false);
-  console.log(getStarted);
   const handleGetStarted = () => {
-    setGetStarted(true);
+  //  dispatch(setGetStarted(true));
+  setGetStarted(true);
+    // dispatch(setHome(true))
   };
   const dispatch = useDispatch();
   useEffect(() => {}, []);

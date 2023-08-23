@@ -23,14 +23,18 @@ const pages = ["Products", "Pricing", "Blog"];
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function NavBar() {
   const handleLogout = () => {
-    const confirmLogout = window.confirm("Are you sure you want to logout?");
-
-    if (confirmLogout) {
-      signOut();
-    }
+    handleCloseDialog(); // Close the dialog
+    signOut();
   };
 
   const router = useRouter();
@@ -43,13 +47,16 @@ function NavBar() {
 
   const dispatch = useDispatch();
   const navBars = useSelector((state) => state.data.navBar);
+  const getStarted = useSelector((state) => state.data.setGetStarted);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [openDialog, setOpenDialog] = React.useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -60,6 +67,14 @@ function NavBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   return (
@@ -195,10 +210,10 @@ function NavBar() {
                 variant="outlined"
                 color="inherit"
                 size="small"
-                onClick={handleLogout}
+                onClick={handleOpenDialog}
                 sx={{ ml: 2 }}
               >
-                logout
+                Logout
               </Button>
             ) : (
               <Button
@@ -216,6 +231,22 @@ function NavBar() {
           </Box>
         </Toolbar>
       </Container>
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Logout</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ fontWeight: 400 }}>
+            Are you sure you want to logout?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary" variant="text">
+            Cancel
+          </Button>
+          <Button onClick={handleLogout} color="warning" variant="text">
+            Logout
+          </Button>
+        </DialogActions>
+      </Dialog>
     </AppBar>
   );
 }

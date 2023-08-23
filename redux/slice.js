@@ -10,6 +10,7 @@ const initialState = {
   data: "",
   error: "",
   navBar: false,
+  setHome: false,
 };
 
 export const dataSlice = createSlice({
@@ -30,12 +31,15 @@ export const dataSlice = createSlice({
     },
     setNavBar: (state, action) => {
       state.navBar = action.payload;
-      console.log(state?.navBar);
+    },
+    setGetStarted: (state, action) => {
+      state.setGetStarted = action.payload;
     },
   },
 });
 
-export const { setData, setLoading, setError, setNavBar,clearError } = dataSlice.actions;
+export const { setData, setLoading, setError, setNavBar, clearError ,setGetStarted} =
+  dataSlice.actions;
 
 export default dataSlice.reducer;
 

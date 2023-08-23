@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    NEW_API_KEY: "d1a3849d2cmsh4e6b3d8d179a40fp14172fjsnb19b9772bf94",
+    NEW_API_KEY: "c8e5723b4amsh544807adaa6c3d4p12cebcjsna88d016ab69d",
     CLIENT_ID:
       "719784905511-gaai3nphvldohett1p2mkg2sihtvut9r.apps.googleusercontent.com",
     CLIENT_SECRET: "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",
