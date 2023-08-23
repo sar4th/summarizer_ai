@@ -3,13 +3,12 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 // import store from "./store";
 
-const dummy_summary =
-  "";
+const dummy_summary = "";
 const initialState = {
   summary: dummy_summary,
   loading: false,
   data: "",
-  error: null,
+  error: "",
   navBar: false,
 };
 
@@ -26,6 +25,9 @@ export const dataSlice = createSlice({
     setError: (state, action) => {
       state.error = action?.payload;
     },
+    clearError: () => {
+      state.error = null;
+    },
     setNavBar: (state, action) => {
       state.navBar = action.payload;
       console.log(state?.navBar);
@@ -33,12 +35,12 @@ export const dataSlice = createSlice({
   },
 });
 
-export const { setData, setLoading, setError, setNavBar } = dataSlice.actions;
+export const { setData, setLoading, setError, setNavBar,clearError } = dataSlice.actions;
 
 export default dataSlice.reducer;
 
-export const fetchData = async (url,dispatch) => {
-  if(!url) return
+export const fetchData = async (url, dispatch) => {
+  if (!url) return;
   dispatch(setLoading(true));
   const options = {
     method: "GET",
@@ -59,7 +61,7 @@ export const fetchData = async (url,dispatch) => {
     dispatch(setData(summary));
     dispatch(setLoading(false));
   } catch (error) {
-    dispatch(setError(error));
-    console.error(error);
+    const errorMessage = error.response.data.message;
+    dispatch(setError(errorMessage));
   }
 };

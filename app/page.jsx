@@ -6,11 +6,17 @@ import Robo from "../public/assests/robo.png";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setNavBar } from "@/redux/slice";
+import Loading from "./summarize/Loading";
 
 export default function Home() {
+  const [getStarted, setGetStarted] = useState(false);
+  console.log(getStarted);
+  const handleGetStarted = () => {
+    setGetStarted(true);
+  };
   const dispatch = useDispatch();
   useEffect(() => {}, []);
   return (
@@ -51,23 +57,27 @@ export default function Home() {
             <br />
             Elevate Efficiency
           </Typography>
-          <Link href="/summarize">
-            <Button
-              onClick={() => dispatch(setNavBar(true))}
-              sx={{
-                fontSize: "16px",
-                fontWeight: "400",
-                border: "none",
-                borderRadius: "3px",
-                padding: "10px 20px",
-                color: "white",
-                background: "#194c5f",
-                textTransform: "capitalize",
-              }}
-            >
-              Get started
-            </Button>
-          </Link>
+          {getStarted ? (
+            <Loading />
+          ) : (
+            <Link href="/summarize">
+              <Button
+                onClick={() => dispatch(setNavBar(true), handleGetStarted())}
+                sx={{
+                  fontSize: "16px",
+                  fontWeight: "400",
+                  border: "none",
+                  borderRadius: "3px",
+                  padding: "10px 20px",
+                  color: "white",
+                  background: "#194c5f",
+                  textTransform: "capitalize",
+                }}
+              >
+                Get started
+              </Button>
+            </Link>
+          )}
         </Grid>
         <Grid
           item

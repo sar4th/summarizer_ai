@@ -8,6 +8,8 @@ const nextConfig = {
     NEXTAUTH_URL: "http://localhost:3000",
     NEXTAUTH_SECRET: "uwhuiwewbweuwwjbwewioii=",
   },
+  // output: 'export',
+  // images: { unoptimized: true }
 };
 
 module.exports = nextConfig;

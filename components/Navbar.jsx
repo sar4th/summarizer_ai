@@ -25,6 +25,14 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function NavBar() {
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to logout?");
+
+    if (confirmLogout) {
+      signOut();
+    }
+  };
+
   const router = useRouter();
   useEffect(() => {
     router.push("/");
@@ -65,7 +73,7 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          {(navBars || session?.user) && (
+          {navBars && (
             <Link
               onClick={() => dispatch(setNavBar(false))}
               href="/"
@@ -187,7 +195,7 @@ function NavBar() {
                 variant="outlined"
                 color="inherit"
                 size="small"
-                onClick={() => signOut()}
+                onClick={handleLogout}
                 sx={{ ml: 2 }}
               >
                 logout

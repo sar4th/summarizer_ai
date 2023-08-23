@@ -1,5 +1,13 @@
 "use client";
-import { Box, Grid, Input, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Grid,
+  Input,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { Suspense, use, useEffect, useState } from "react";
 import styles from "./page.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,15 +24,18 @@ import HeroComponent from "@/components/HeroComponent";
 const Page = () => {
   const dispatch = useDispatch();
   const { speak, cancel } = useSpeechSynthesis();
-  const error = useSelector((state) => state?.data?.error);
+  const message = useSelector((state) => state?.data?.error);
+
   const summary = useSelector((state) => state?.data?.summary);
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [urlErr, setUrlErr] = useState(false);
 
   const handleListen = () => {
     if (!summary) {
-      alert("Please select a summary");
+      setOpen(true);
     } else {
       speak({ text: summary });
       setPlaying(true);
@@ -46,8 +57,16 @@ const Page = () => {
         setLoading(false);
       }
     } else {
-      alert("Please enter a URL");
+      // alert("Please enter a URL");
+      setUrlErr(true);
     }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleCloseUrl = () => {
+    setUrlErr(false);
   };
 
   return (
@@ -139,6 +158,7 @@ const Page = () => {
             </form>
           </Grid>
           {loading && <Loading />}
+          {message && <ErrorPage message={message} />}
           {summary && (
             <Grid
               item
@@ -172,11 +192,27 @@ const Page = () => {
                     textAlign: "justify",
                   }}
                 >
-                  {error ? <ErrorPage /> : summary}
+                  {summary && summary}
                 </Typography>
               </Box>
             </Grid>
           )}
+          <Snackbar
+            autoHideDuration={3000}
+            open={open}
+            onClose={handleClose}
+            severity="warning"
+          >
+            <Alert severity="error">Please select a summary</Alert>
+          </Snackbar>
+          <Snackbar
+            autoHideDuration={3000}
+            open={urlErr}
+            onClose={handleCloseUrl}
+            severity="warning"
+          >
+            <Alert severity="error">Please enter a url</Alert>
+          </Snackbar>
         </Grid>
       </main>
     </>
