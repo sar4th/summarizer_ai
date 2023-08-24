@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-// import store from "./store";
 
 const dummy_summary = "";
 const initialState = {
@@ -11,6 +9,7 @@ const initialState = {
   error: "",
   navBar: false,
   setHome: false,
+  setGetStarted: false,
 };
 
 export const dataSlice = createSlice({
@@ -34,12 +33,19 @@ export const dataSlice = createSlice({
     },
     setGetStarted: (state, action) => {
       state.setGetStarted = action.payload;
+      console.log("IT IS ", state.setGetStarted);
     },
   },
 });
 
-export const { setData, setLoading, setError, setNavBar, clearError ,setGetStarted} =
-  dataSlice.actions;
+export const {
+  setData,
+  setLoading,
+  setError,
+  setNavBar,
+  clearError,
+  setGetStarted,
+} = dataSlice.actions;
 
 export default dataSlice.reducer;
 

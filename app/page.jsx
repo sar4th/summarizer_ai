@@ -6,21 +6,18 @@ import Robo from "../public/assests/robo.png";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Head from "next/head";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setGetStarted, setNavBar } from "@/redux/slice";
 import Loading from "./summarize/Loading";
 
 export default function Home() {
-  // const getStarted = useSelector((state) => state.data.setGetStarted)
-  const [getStarted, setGetStarted] = useState(false);
+  const getStarted = useSelector((state) => state.data.setGetStarted);
   const handleGetStarted = () => {
-  //  dispatch(setGetStarted(true));
-  setGetStarted(true);
-    // dispatch(setHome(true))
+    dispatch(setGetStarted(true));
+    dispatch(setNavBar(true));
   };
   const dispatch = useDispatch();
-  useEffect(() => {}, []);
+  console.log(getStarted, "getStarted");
   return (
     <main className={styles.main}>
       <Head>
@@ -64,7 +61,7 @@ export default function Home() {
           ) : (
             <Link href="/summarize">
               <Button
-                onClick={() => dispatch(setNavBar(true), handleGetStarted())}
+                onClick={handleGetStarted}
                 sx={{
                   fontSize: "16px",
                   fontWeight: "400",

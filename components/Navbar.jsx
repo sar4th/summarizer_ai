@@ -18,10 +18,10 @@ import Robo from "../public/assests/robo.png";
 import Link from "next/link";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { setNavBar } from "@/redux/slice";
+import { setGetStarted, setNavBar } from "@/redux/slice";
 const pages = ["Products", "Pricing", "Blog"];
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import {
   Dialog,
@@ -33,7 +33,7 @@ import {
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function NavBar() {
   const handleLogout = () => {
-    handleCloseDialog(); // Close the dialog
+    handleCloseDialog();
     signOut();
   };
 
@@ -46,9 +46,7 @@ function NavBar() {
   const UserImage = session?.user?.image;
 
   const dispatch = useDispatch();
-  const navBars = useSelector((state) => state.data.navBar);
-  const getStarted = useSelector((state) => state.data.setGetStarted);
-
+  const pathName = usePathname();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -88,9 +86,12 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          {navBars && (
+          {pathName === "/summarize" && (
             <Link
-              onClick={() => dispatch(setNavBar(false))}
+              onClick={() => {
+                dispatch(setNavBar(false));
+                dispatch(setGetStarted(false));
+              }}
               href="/"
               passHref
               suppressHydrationWarning={true}
@@ -113,50 +114,11 @@ function NavBar() {
               </Typography>
             </Link>
           )}
-
-          {/* <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box> */}
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          {navBars && (
+          {pathName === "/summarize" && (
             <Typography
               variant="h5"
               noWrap
-              // component="a"
-              // href="/"
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
@@ -177,17 +139,6 @@ function NavBar() {
               </Link>
             </Typography>
           )}
-          {/* <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box> */}
 
           <Box
             sx={{
